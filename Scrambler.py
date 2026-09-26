@@ -1,100 +1,90 @@
 import random
 
 animals = [
-    "Lion", "Tiger", "Elephant", "Giraffe", "Zebra",
-    "Cheetah", "Gorilla", "Kangaroo", "Panda", "Wolf",
-    "Fox", "Rabbit", "Eagle", "Penguin", "Dolphin"
+    "lion", "tiger", "elephant", "giraffe", "zebra",
+    "cheetah", "gorilla", "kangaroo", "panda", "wolf",
+    "fox", "rabbit", "eagle", "penguin", "dolphin"
 ]
 
 food = [
-    "Pizza", "Burger", "Pasta", "Sushi", "Tacos",
-    "Rice", "Chicken", "Steak", "Lasagna", "Pancakes",
-    "Fries", "Sandwich", "Curry", "Salad", "Ice Cream"
+    "pizza", "burger", "pasta", "sushi", "tacos",
+    "rice", "chicken", "steak", "lasagna", "pancakes",
+    "fries", "sandwich", "curry", "salad", "ice cream"
 ]
 
 countries = [
-    "Barbados", "Canada", "Brazil", "Japan", "Germany",
-    "France", "Mexico", "India", "Australia", "Spain",
-    "Italy", "China", "Jamaica", "Nigeria", "Norway"
+    "barbados", "canada", "brazil", "japan", "germany",
+    "france", "mexico", "india", "australia", "spain",
+    "italy", "china", "jamaica", "nigeria", "norway"
 ]
 
+
+def play_game(category, words):
+    random_word = random.choice(words)
+    scrambled_word = ''.join(random.sample(random_word, len(random_word)))
+
+    print(f"\n=== WELCOME TO THE {category.upper()} SCRAMBLER ===")
+    print(f"The scrambled {category.lower()} word is: {scrambled_word}")
+
+    attempts = 0
+    max_attempts = 5
+
+    while attempts < max_attempts:
+        guess = input(
+            f"Please enter your guess [YOU HAVE {max_attempts - attempts} GUESSES]: "
+        ).lower()
+
+        attempts += 1
+
+        if guess == random_word:
+            print(
+                f"\nCONGRATULATIONS! YOU GUESSED CORRECTLY."
+                f"\nThe correct word was {random_word}"
+            )
+            return
+
+        remaining = max_attempts - attempts
+
+        if remaining > 0:
+            print(f"You guessed wrong. You have {remaining} guesses remaining.")
+        else:
+            print(
+                f"\nYou ran out of attempts!"
+                f"\nThe answer was {random_word}."
+                f"\nBetter luck next time!"
+            )
+
+
 while True:
+    print("\n=== WELCOME TO THE SCRAMBLER PROGRAM ===")
+    print(
+        "Which Category Would You Like To Play In:"
+        "\n1. Food"
+        "\n2. Country"
+        "\n3. Animals"
+        "\n4. Exit"
+    )
 
-    print("\nWELCOME TO THE SCRAMBLER GAME")
-    print("Please select which category you would like to play:")
-    print("1. Animals")
-    print("2. Food")
-    print("3. Countries")
+    try:
+        option = int(input("Please enter your choice: "))
 
-    choice = int(input("Choice?: "))
+        match option:
+            case 1:
+                play_game("Food", food)
 
-    match choice:
+            case 2:
+                play_game("Country", countries)
 
-        case 1:
-            randomAnimal = random.choice(animals)
-            scrambledAnimal = ''.join(
-                random.sample(randomAnimal, len(randomAnimal))
-            )
+            case 3:
+                play_game("Animals", animals)
 
-            print(f"\nUnscramble this animal: {scrambledAnimal}")
-            print("YOU HAVE 5 GUESSES")
+            case 4:
+                print("\nSo sorry to see you go my friend.")
+                print("Have a wonderful day!")
+                break
 
-            attempts = 0
-            userGuess = input("What is your guess?: ")
-            attempts += 1
+            case _:
+                print("Invalid option. Please choose 1, 2, 3, or 4.")
 
-            while userGuess != randomAnimal and attempts < 5:
-                userGuess = input("Wrong guess, try again: ")
-                attempts += 1
-
-            if userGuess == randomAnimal:
-                print(f"CONGRATULATIONS! The correct word was {randomAnimal}")
-            else:
-                print(f"Out of guesses! The correct word was {randomAnimal}")
-
-        case 2:
-            randomFood = random.choice(food)
-            scrambledFood = ''.join(
-                random.sample(randomFood, len(randomFood))
-            )
-
-            print(f"\nUnscramble this food: {scrambledFood}")
-            print("YOU HAVE 5 GUESSES")
-
-            attempts = 0
-            userGuess = input("What is your guess?: ")
-            attempts += 1
-
-            while userGuess != randomFood and attempts < 5:
-                userGuess = input("Wrong guess, try again: ")
-                attempts += 1
-
-            if userGuess == randomFood:
-                print(f"CONGRATULATIONS! The correct word was {randomFood}")
-            else:
-                print(f"Out of guesses! The correct word was {randomFood}")
-
-        case 3:
-            randomCountry = random.choice(countries)
-            scrambledCountry = ''.join(
-                random.sample(randomCountry, len(randomCountry))
-            )
-
-            print(f"\nUnscramble this country: {scrambledCountry}")
-            print("YOU HAVE 5 GUESSES")
-
-            attempts = 0
-            userGuess = input("What is your guess?: ")
-            attempts += 1
-
-            while userGuess != randomCountry and attempts < 5:
-                userGuess = input("Wrong guess, try again: ")
-                attempts += 1
-
-            if userGuess == randomCountry:
-                print(f"CONGRATULATIONS! The correct word was {randomCountry}")
-            else:
-                print(f"Out of guesses! The correct word was {randomCountry}")
-
-        case _:
-            print("Invalid choice.")
+    except ValueError:
+        print("Invalid input. Please enter a number.")
